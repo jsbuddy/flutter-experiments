@@ -1,3 +1,4 @@
+import 'package:experiments/studybuddy/theme.dart';
 import 'package:experiments/studybuddy/views/courses.dart';
 import 'package:experiments/studybuddy/views/timetable.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +23,22 @@ class StudyBuddyState extends State<StudyBuddy>
 
   Widget _buildAppBar() {
     return AppBar(
-      title: Icon(Icons.book),
-      automaticallyImplyLeading: false,
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.more_vert),
-          onPressed: () {},
-        )
-      ],
+      title: Text(
+        'STUDYBUDDY',
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.2),
+      ),
+//      automaticallyImplyLeading: false,
+//      actions: <Widget>[
+//        IconButton(
+//          icon: Icon(Icons.more_vert),
+//          onPressed: () {},
+//        )
+//      ],
+      centerTitle: true,
       elevation: 0,
       bottom: TabBar(
         controller: _tabController,
@@ -44,15 +53,31 @@ class StudyBuddyState extends State<StudyBuddy>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          Container(child: Center(child: Text('Study'))),
-          Timetable(),
-          Courses()
-        ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ITheme.light,
+      home: Scaffold(
+        appBar: _buildAppBar(),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            Container(child: Center(child: Text('Study'))),
+            Timetable(),
+            Courses()
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book),
+              title: Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book),
+              title: Text('Home'),
+            )
+          ],
+        ),
       ),
     );
   }

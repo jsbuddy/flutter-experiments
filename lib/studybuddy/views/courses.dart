@@ -27,8 +27,19 @@ class CoursesState extends State<Courses> {
             children: <Widget>[
               TextFormField(
                 autofocus: true,
-                decoration: InputDecoration(icon: Icon(Icons.book), hintText: 'Course Title'),
-                onFieldSubmitted: (text) => _addCourse(context, Course(text, DateTime.now())),
+                decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.book,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).accentColor, width: 2),
+                  ),
+                  hintText: 'Course Title',
+                ),
+                onFieldSubmitted: (text) =>
+                    _addCourse(context, Course(text, DateTime.now())),
               ),
             ],
           ),
@@ -60,23 +71,26 @@ class CoursesState extends State<Courses> {
         child: ListView(
           children: _courses
               .map((course) => Card(
-            child: InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => CourseView(course)));
-              },
-              onLongPress: () => showModalBottomSheet(
-                  context: context,
-                  builder: (context) => _buildBottomSheet(context)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  title: Text(course.title),
-                  subtitle: Text(
-                      'Last studied: ${course.lastStudied.day} / ${course.lastStudied.month} / ${course.lastStudied.year}'),
-                ),
-              ),
-            ),
-          ))
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CourseView(course)));
+                      },
+                      onLongPress: () => showModalBottomSheet(
+                          context: context,
+                          builder: (context) => _buildBottomSheet(context)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text(course.title),
+                          subtitle: Text(
+                              'Last studied: ${course.lastStudied.day} / ${course.lastStudied.month} / ${course.lastStudied.year}'),
+                        ),
+                      ),
+                    ),
+                  ))
               .toList(),
         ),
       ),

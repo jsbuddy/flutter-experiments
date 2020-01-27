@@ -1,6 +1,11 @@
 import 'package:experiments/talknaija/views/home.dart';
+import 'package:experiments/talknaija/views/messages.dart';
 import 'package:experiments/talknaija/views/profile.dart';
+//import 'package:experiments/talknaija/views/settings.dart';
+//import 'package:experiments/talknaija/widget/bottom_app_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:experiments/talknaija/theme.dart';
 
 class TalkNaija extends StatefulWidget {
   @override
@@ -9,31 +14,13 @@ class TalkNaija extends StatefulWidget {
 
 class _TalkNaijaState extends State<TalkNaija> {
   int _selectedIndex = 0;
+
   final _widgetOptions = [
     Home(),
-    Center(child: Text('No one has buzzed you')),
-    Center(child: Text('Your messages will show here')),
+//    Center(child: Text('No one has buzzed you')),
+    Messages(),
     Profile(),
   ];
-
-  final AppBar appBar = AppBar(
-    title: Icon(Icons.account_balance_wallet),
-    actions: <Widget>[
-      IconButton(icon: Icon(Icons.search), onPressed: () {}),
-      PopupMenuButton(
-        tooltip: 'More options',
-        padding: EdgeInsets.all(0.0),
-        onSelected: (v) => debugPrint(v),
-        itemBuilder: (context) => ['Options', 'Permissions', 'Sign out']
-            .map((item) => PopupMenuItem(
-                  child: Text(item, style: TextStyle(fontSize: 14.0)),
-                  value: item.toLowerCase(),
-                ))
-            .toList(),
-      )
-    ],
-    elevation: 0.2,
-  );
 
   void _onItemTapped(int index) {
     setState(() {
@@ -43,29 +30,35 @@ class _TalkNaijaState extends State<TalkNaija> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar,
-        body: _widgetOptions.elementAt(_selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _selectedIndex,
-            onTap: (index) => _onItemTapped(index),
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.rss_feed), title: Text('Feeds')),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications), title: Text('Buzz')),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.message), title: Text('Messages')),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline),
-                  title: Text('Profile'),
-                  activeIcon: Icon(Icons.person)),
-            ]),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ITheme.light,
+      home: SafeArea(
+        child: Scaffold(
+          body: _widgetOptions.elementAt(_selectedIndex),
+          bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              type: BottomNavigationBarType.shifting,
+              fixedColor: Theme.of(context).iconTheme.color.withOpacity(.5),
+              items: [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home, color: Theme.of(context).iconTheme.color.withOpacity(.5),),
+                    activeIcon: Icon(Icons.home, color: Theme.of(context).accentColor,),
+                    title: Text('Home', style: TextStyle(fontSize: 12.5, color: Theme.of(context).accentColor),)),
+//                BottomNavigationBarItem(
+//                    icon: Icon(Icons.notifications, color: Theme.of(context).iconTheme.color.withOpacity(.5),),
+//                    activeIcon: Icon(Icons.notifications, color: Theme.of(context).accentColor,),
+//                    title: Text('Notifications', style: TextStyle(fontSize: 12.5, color: Theme.of(context).accentColor),)),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.mail, color: Theme.of(context).iconTheme.color.withOpacity(.5),),
+                    activeIcon: Icon(Icons.mail, color: Theme.of(context).accentColor,),
+                    title: Text('Messages', style: TextStyle(fontSize: 12.5, color: Theme.of(context).accentColor),)),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person, color: Theme.of(context).iconTheme.color.withOpacity(.5),),
+                    activeIcon: Icon(Icons.person, color: Theme.of(context).accentColor,),
+                    title: Text('Profile', style: TextStyle(fontSize: 12.5, color: Theme.of(context).accentColor),)),
+              ]),
         ),
       ),
     );

@@ -14,12 +14,17 @@ class _CalculatorState extends State<Calculator> {
   bool _equalClicked = false;
   var _operation;
 
-  Widget button(String text, operator, handler) {
+  Widget _button(String text, operator, handler, height) {
     return RawMaterialButton(
       child: Text(text, style: TextStyle(fontSize: 25.0, color: Colors.white)),
       onPressed: handler,
-      fillColor: operator ? Colors.black45 : null,
+      fillColor: operator ? Colors.black45 : Colors.blue,
       elevation: 0.0,
+//      color: Colors.green,
+      constraints: BoxConstraints.tightFor(height: height),
+padding: EdgeInsets.all(0),
+
+//    constraints: BoxConstraints(minHeight: 80),
     );
   }
 
@@ -115,8 +120,7 @@ class _CalculatorState extends State<Calculator> {
   show(context) {
     showModalBottomSheet<void>(
       context: context,
-      builder: (BuildContext context) => ListView(
-          children: <Widget>[
+      builder: (BuildContext context) => ListView(children: <Widget>[
             ListTile(
               title: Text('Jude Francis'),
               subtitle: Text('judecode@yahoo.com'),
@@ -132,21 +136,26 @@ class _CalculatorState extends State<Calculator> {
               subtitle: Text('judecode@yahoo.com'),
               leading: Icon(Icons.person_pin_circle),
             ),
-          ]
-      ),
+          ]),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final double displayHeight = 130;
+    final double buttonHeight = (deviceHeight - displayHeight) / 5.28;
+    debugPrint('deviceHeight $deviceHeight');
+    debugPrint('buttonHeight $buttonHeight');
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: <Widget>[
             Container(
               width: double.infinity,
-              height: 143.0,
-//            color: Colors.black38,
+              height: displayHeight,
+              color: Colors.red,
               padding: EdgeInsets.all(20.0),
               child: Column(
                 children: <Widget>[
@@ -174,35 +183,57 @@ class _CalculatorState extends State<Calculator> {
               ),
             ),
             Expanded(
-              child: Container(
-                height: MediaQuery.of(context).size.height - 143.0,
-                color: Colors.red,
-                child: GridView.count(
-                  crossAxisCount: 4,
-                  padding: EdgeInsets.all(0.0),
-                  children: <Widget>[
-                    button('C', false, () => clear()),
-                    button('%', false, () => percent()),
-                    button('👈', false, () => backspace()),
-                    button('÷', true, () => operate('divide')),
-                    button('7', false, () => append('7')),
-                    button('8', false, () => append('8')),
-                    button('9', false, () => append('9')),
-                    button('x', true, () => operate('multiply')),
-                    button('4', false, () => append('4')),
-                    button('5', false, () => append('5')),
-                    button('6', false, () => append('6')),
-                    button('-', true, () => operate('substract')),
-                    button('1', false, () => append('1')),
-                    button('2', false, () => append('2')),
-                    button('3', false, () => append('3')),
-                    button('+', true, () => operate('add')),
-                    button('0', false, () => append('0')),
-                    button('.', false, () => dot()),
-                    button('🎁', false, () => show(context)),
-                    button('=', true, () => equals()),
-                  ],
-                ),
+              child: Column(
+//                height: MediaQuery.of(context).size.height - 143.0,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _button('C', false, () => clear(), buttonHeight),
+                      _button('%', false, () => percent(), buttonHeight),
+                      _button('👈', false, () => backspace(), buttonHeight),
+                      _button('÷', true, () => operate('divide'), buttonHeight),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _button('7', false, () => append('7'), buttonHeight),
+                      _button('8', false, () => append('8'), buttonHeight),
+                      _button('9', false, () => append('9'), buttonHeight),
+                      _button(
+                          'x', true, () => operate('multiply'), buttonHeight),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _button('4', false, () => append('4'), buttonHeight),
+                      _button('5', false, () => append('5'), buttonHeight),
+                      _button('6', false, () => append('6'), buttonHeight),
+                      _button(
+                          '-', true, () => operate('substract'), buttonHeight),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _button('1', false, () => append('1'), buttonHeight),
+                      _button('2', false, () => append('2'), buttonHeight),
+                      _button('3', false, () => append('3'), buttonHeight),
+                      _button('+', true, () => operate('add'), buttonHeight),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _button('0', false, () => append('0'), buttonHeight),
+                      _button('.', false, () => dot(), buttonHeight),
+                      _button('🎁', false, () => show(context), buttonHeight),
+                      _button('=', true, () => equals(), buttonHeight),
+                    ],
+                  ),
+                ],
               ),
             )
           ],
